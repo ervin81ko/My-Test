@@ -12,4 +12,4 @@ syn_allert_clock=$(curl -s http://169.254.169.254/openstack/latest/user_data | g
 echo $syn_allert_clock > /root/synergy_scripts/pippo.txt
 echo $expiration_date > /root/synergy_scripts/pluto.txt
 EOF
-sudo chmod 755 /root/synergy_scripts/check_expiration_time.sh#!/bin/bash
+sudo chmod 755 /root/synergy_scripts/check_expiration_time.sh
