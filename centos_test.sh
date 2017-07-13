@@ -1,9 +1,11 @@
 #!/bin/bash
 sudo mkdir /root/synergy_scripts 
+# Synergy cron
 sudo cat<< EOF >/etc/cron.d/synergy_cron.txt
 */1 * * * * root /root/synergy_scripts/check_expiration_time.sh
 EOF
 sudo chmod 644 /etc/cron.d/synergy_cron.txt
+
 #Check expiartion time
 sudo cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
