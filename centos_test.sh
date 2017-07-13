@@ -17,7 +17,7 @@ sudo chmod 644 /root/synergy_cron.txt
 sudo cat <<'EOF'>> /root/synergy_scripts/user_script.sh
 #!/bin/bash
 EOF
-row_number=$(curl -s http://169.254.169.254/openstack/latest/user_data |grep -m1 -n '#!\/bin\/bash' | sed 's/^\([0-9]\+\):.*$/\1/')
+row_number=$(curl -s http://169.254.169.254/openstack/latest/user_data |grep -m2 -n '#!\/bin\/bash' | sed 's/^\([0-9]\+\):.*$/\1/')
 curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$row_number > /root/synergy_scripts/user_script.sh
 sudo chmod 755 /root/synergy_scripts/user_script.sh
 
@@ -43,8 +43,8 @@ let "time_diff=($expiration_time-$curr_time)/60"
 if [ "$time_diff" -le "$time_allert" ]
 then
       sudo ./user_script.sh
-
 else
       echo "expression evaluated as false nothing to do"
-
 fi
+EOF
+chmod 755 /root/synergy_scripts/check_expiration_time.sh
