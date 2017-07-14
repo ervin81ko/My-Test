@@ -17,9 +17,9 @@ sudo chmod 644 /root/synergy_cron.txt
 sudo cat <<'EOF'>> /root/synergy_scripts/user_script.sh
 #!/bin/bash
 EOF
-sudo chmod 777 /root/synergy_scripts/user_script.sh
 row_number=$(curl -s http://169.254.169.254/openstack/latest/user_data |grep -m1 -n 'curl -sL' | sed 's/^\([0-9]\+\):.*$/\1/')
 curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$row_number > /root/synergy_scripts/user_script.sh
+sudo chmod 777 /root/synergy_scripts/user_script.sh
 
 # Check expiartion time
 sudo cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
