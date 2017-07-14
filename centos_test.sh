@@ -43,7 +43,7 @@ let "time_diff=($expiration_time-$curr_time)/60"
 
 if [ "$time_diff" -le "$time_allert" ]
 then
-      sudo ./user_script.sh
+     /root/synergy_scripts/user_script.sh
 else
       echo "expression evaluated as false nothing to do"
 fi
