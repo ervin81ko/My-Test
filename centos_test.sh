@@ -5,23 +5,23 @@
 ###########
 
 # Synergy directory
-sudo mkdir /root/synergy_scripts
+mkdir /root/synergy_scripts
 
 # Cron 
-sudo cat<< EOF >/etc/cron.d/synergy_cron.txt
+cat<< EOF >/etc/cron.d/synergy_cron.txt
 */3* * * * root /root/synergy_scripts/check_expiration_time.sh
 EOF
-sudo chmod 644 /root/synergy_cron.txt
+chmod 644 /root/synergy_cron.txt
 
 # Make user script
 dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=dest_path=).*')
-sudo cat <<'EOF'>> $dest_path
+cat <<'EOF'>> $dest_path
 #!/bin/bash
 EOF
 row_number=$(curl -s http://169.254.169.254/openstack/latest/user_data |grep -m1 -n 'curl -sL' | sed 's/^\([0-9]\+\):.*$/\1/')
 let "from=($row_number+1)"
 curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$from >> $dest_path
-sudo chmod 755 $dest_path
+chmod 755 $dest_path
 
 # Check expiartion time
 cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
