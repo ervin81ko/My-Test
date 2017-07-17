@@ -8,14 +8,14 @@
 mkdir /root/synergy_scripts
 
 # Cron 
-cat<< EOF >/etc/cron.d/synergy_cron.txt
+cat << EOF >/etc/cron.d/synergy_cron.txt
 */3* * * * root /root/synergy_scripts/check_expiration_time.sh
 EOF
 chmod 644 /root/synergy_cron.txt
 
 # Make user script
 dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=dest_path=).*')
-cat << EOF >> $dest_path
+cat <<'EOF'>> $dest_path
 #!/bin/bash
 EOF
 row_number=$(curl -s http://169.254.169.254/openstack/latest/user_data |grep -m1 -n 'curl -sL' | sed 's/^\([0-9]\+\):.*$/\1/')
@@ -24,7 +24,7 @@ curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$from >> $d
 chmod 755 $dest_path
 
 # Check expiartion time
-cat << EOF >> /root/synergy_scripts/check_expiration_time.sh
+cat << 'EOF' >> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
 
 # Expiration time in sec. since 1970-01-01 00:00:00 UTC
@@ -44,7 +44,7 @@ let "time_diff=($expiration_time-$curr_time)/60"
 
 if [ "$time_diff" -le "$time_allert" ]
 then
-     echo $dest_path
+     $dest_path
 else
       echo "expression evaluated as false nothing to do"
 fi
