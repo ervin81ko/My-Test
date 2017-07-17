@@ -14,7 +14,8 @@ EOF
 sudo chmod 644 /root/synergy_cron.txt
 
 # Make user script
-sudo cat <<'EOF'>> /root/synergy_scripts/user_script.sh
+dest-path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=dest_path=).*')
+sudo cat <<'EOF'>> $dest-path
 #!/bin/bash
 EOF
 row_number=$(curl -s http://169.254.169.254/openstack/latest/user_data |grep -m1 -n 'curl -sL' | sed 's/^\([0-9]\+\):.*$/\1/')
