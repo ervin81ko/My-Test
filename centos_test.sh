@@ -24,7 +24,7 @@ curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$from >> $d
 chmod 755 $dest_path
 
 # Check expiartion time
-cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
+cat << EOF >> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
 
 # Expiration time in sec. since 1970-01-01 00:00:00 UTC
