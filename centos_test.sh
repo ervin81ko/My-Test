@@ -20,8 +20,8 @@ sudo cat <<'EOF'>> $dest_path
 EOF
 row_number=$(curl -s http://169.254.169.254/openstack/latest/user_data |grep -m1 -n 'curl -sL' | sed 's/^\([0-9]\+\):.*$/\1/')
 let "from=($row_number+1)"
-curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$from >> /root/synergy_scripts/user_script.sh
-sudo chmod 755 /root/synergy_scripts/user_script.sh
+curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$from >> $dest_path
+sudo chmod 755 $dest_path
 
 # Check expiartion time
 sudo cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
