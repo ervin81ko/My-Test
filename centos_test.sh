@@ -23,7 +23,6 @@ let "from=($row_number+1)"
 curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$from >> $dest_path
 chmod 755 $dest_path
 
-dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=dest_path=).*')
 # Check expiartion time
 cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
@@ -45,7 +44,7 @@ let "time_diff=($expiration_time-$curr_time)/60"
 
 if [ "$time_diff" -le "$time_allert" ]
 then
-     echo $dest_path
+     echo '$dest_path'
 else
       echo "expression evaluated as false nothing to do"
 fi
