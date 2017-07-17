@@ -23,6 +23,7 @@ let "from=($row_number+1)"
 curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$from >> $dest_path
 chmod 755 $dest_path
 
+dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=dest_path=).*')
 # Check expiartion time
 cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
