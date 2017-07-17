@@ -48,7 +48,7 @@ EOF
 cat << EOF >> /root/synergy_scripts/check_expiration_time.sh
     $dest_path
 else
-      echo "expression evaluated as false nothing to do"
+    echo "expression evaluated as false nothing to do"
 fi
 EOF
 chmod 755 /root/synergy_scripts/check_expiration_time.sh
