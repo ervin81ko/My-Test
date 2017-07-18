@@ -18,7 +18,6 @@ dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1
 cat << 'EOF' >> $dest_path
 #!/bin/bash
 EOF
-#curl -s http://169.254.169.254/openstack/latest/user_data | grep -n '"""' |awk -F: 'NR==1 {printf "%d ", $1}; END{print $1}'
 read first last <<< $(curl -s http://169.254.169.254/openstack/latest/user_data | grep -n '"""' |awk -F: 'NR==1 {printf "%d ", $1}; END{print $1}')
 let "first=($first+1)"
 let "last=($last-1)"
