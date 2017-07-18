@@ -18,9 +18,11 @@ dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1
 cat << 'EOF' >> $dest_path
 #!/bin/bash
 EOF
-row_number=$(curl -s http://169.254.169.254/openstack/latest/user_data |grep -m1 -n 'curl -sL' | sed 's/^\([0-9]\+\):.*$/\1/')
-let "from=($row_number+1)"
-curl -s http://169.254.169.254/openstack/latest/user_data | tail -n +$from >> $dest_path
+curl -s http://169.254.169.254/openstack/latest/user_data | grep -n '"""' |awk -F: 'NR==1 {printf "%d ", $1}; END{print $1}'
+read first last <<< $(curl -s http://169.254.169.254/openstack/latest/user_data | grep -n '"""' |awk -F: 'NR==1 {printf "%d ", $1}; END{print $1}')
+let "first=($first-1)"
+let "last=($last-1)"
+curl -s http://169.254.169.254/openstack/latest/user_data |awk -v f=$first -v l=$last 'NR>=f && NR<=l' >> $dest_path
 chmod 755 $dest_path
 
 # Check expiartion time
