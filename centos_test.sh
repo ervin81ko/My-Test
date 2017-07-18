@@ -9,7 +9,7 @@ mkdir /root/synergy_scripts
 
 # Cron 
 cat << EOF >/etc/cron.d/synergy_cron.txt
-*/3 * * * * root /root/synergy_scripts/check_expiration_time.sh
+*/2 * * * * root /root/synergy_scripts/check_expiration_time.sh
 EOF
 chmod 644 /root/synergy_cron.txt
 
