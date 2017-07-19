@@ -13,6 +13,8 @@ cat << EOF >/etc/cron.d/synergy_cron.txt
 EOF
 chmod 644 /etc/cron.d/synergy_cron.txt
 
+dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=dest_path=).*')
+
 # Check expiartion time
 cat << 'EOF' >> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
@@ -41,4 +43,3 @@ else
     echo "expression evaluated as false nothing to do"
 fi
 EOF
-chmod 755 /root/synergy_scripts/check_expiration_time.sh
