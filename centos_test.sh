@@ -6,7 +6,7 @@
 
 # Cron 
 cat << EOF >/etc/cron.d/synergy_cron.txt
-*/2 * * * * root /root/synergy_scripts/check_expiration_time.sh
+*/1* * * * root /root/synergy_scripts/check_expiration_time.sh
 EOF
 chmod 644 /etc/cron.d/synergy_cron.txt
 
@@ -40,3 +40,4 @@ else
     echo "expression evaluated as false nothing to do"
 fi
 EOF
+chmod 755 /root/synergy_scripts/check_expiration_time.sh
