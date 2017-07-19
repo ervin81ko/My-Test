@@ -13,17 +13,6 @@ cat << EOF >/etc/cron.d/synergy_cron.txt
 EOF
 chmod 644 /etc/cron.d/synergy_cron.txt
 
-# Make user script
-dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=dest_path=).*')
-cat << 'EOF' >> $dest_path
-#!/bin/bash
-EOF
-read first last <<< $(curl -s http://169.254.169.254/openstack/latest/user_data | grep -n '"""' |awk -F: 'NR==1 {printf "%d ", $1}; END{print $1}')
-let "first=($first+1)"
-let "last=($last-1)"
-curl -s http://169.254.169.254/openstack/latest/user_data |awk -v f=$first -v l=$last 'NR>=f && NR<=l' >> $dest_path
-chmod 755 $dest_path
-
 # Check expiartion time
 cat << 'EOF' >> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
