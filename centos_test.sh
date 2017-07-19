@@ -16,13 +16,10 @@ dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1
 cat << 'EOF' >> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
 # Expiration time in sec. since 1970-01-01 00:00:00 UTC
-# expiration_time=$(curl -s http://169.254.169.254/openstack/latest/meta_data.json | grep -oP "(?<=\"expiration_date\": \")[^\"]+")
-expiration_time=$(date +%s -d'2017-07-12 12:35:00')
+expiration_time=$(curl -s http://169.254.169.254/openstack/latest/meta_data.json | grep -oP "(?<=\"expiration_date\": \")[^\"]+")
 
 # Time in min.
-# time_allert=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=syn_allert_clock=).*')
-
-time_allert=2
+time_allert=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=syn_allert_clock=).*')
 
 # Current time in sec. since 1970-01-01 00:00:00 UTC
 curr_time=$(date -u +%s)
