@@ -33,7 +33,7 @@ let "time_diff=($expiration_time-$curr_time)/60"
 if [ "$time_diff" -le "$time_allert" ]
 then
 EOF
-cat << EOF >> /root/synergy_scripts/check_expiration_time.sh
+cat <<EOF>> /root/synergy_scripts/check_expiration_time.sh
     $dest_path
 else
     echo "expression evaluated as false nothing to do"
