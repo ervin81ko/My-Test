@@ -11,7 +11,7 @@ mkdir /root/synergy_scripts
 cat << EOF >/etc/cron.d/synergy_cron.txt
 */2 * * * * root /root/synergy_scripts/check_expiration_time.sh
 EOF
-chmod 644 /root/synergy_cron.txt
+chmod 644 /etc/cron.d/synergy_cron.txt
 
 # Make user script
 dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=dest_path=).*')
