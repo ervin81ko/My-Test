@@ -32,7 +32,7 @@ EOF
 cat <<EOF>> /root/synergy_scripts/check_expiration_time.sh
     $dest_path
 else
-    echo "expression evaluated as false nothing to do"
+    echo "Test Failed" > /mnt/volume/synergy_test_result.txt
 fi
 EOF
 chmod 755 /root/synergy_scripts/check_expiration_time.sh
