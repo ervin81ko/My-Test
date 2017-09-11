@@ -32,7 +32,7 @@ EOF
 cat <<EOF>> /root/synergy_scripts/check_expiration_time.sh
     $dest_path
 else
-    echo "Test Failed" > /mnt/volume/synergy_test_result.txt
+    echo " User script not executed" > /root/synergy_scripts/test_log.txt
 fi
 EOF
 chmod 755 /root/synergy_scripts/check_expiration_time.sh
