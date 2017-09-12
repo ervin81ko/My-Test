@@ -28,6 +28,10 @@ then
 EOF
 cat <<EOF>> /root/synergy_scripts/check_expiration_time.sh
     $dest_path
+      if [ $? -eq 0 ]; then 
+        rm -rf /etc/cron.d/synergy_cron; 
+      fi
+
 else
       echo "Expiration time checked on:" `date` >>/root/synergy_scripts/expiration_time_log.txt
 fi
