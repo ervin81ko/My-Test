@@ -1,8 +1,5 @@
 
 #!/bin/bash
-###########
-# Centos7 #
-###########
 
 # Make Synergy cron 
 cat << EOF >/etc/cron.d/synergy_cron
