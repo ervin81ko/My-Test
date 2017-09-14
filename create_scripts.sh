@@ -1,18 +1,16 @@
 #!/bin/bash
 
 # Make Synergy cron 
-
 cat << EOF >/etc/cron.d/synergy_cron
 */1 * * * * root /root/synergy_scripts/check_expiration_time.sh
 EOF
-
 if [ $? -eq 0 ]; then 
   echo `date`" 'synergy_cron' file created correctly" >>/root/synergy_scripts/log.txt;
 else
   echo `date`" Error: 'synergy_cron file not created" >>/root/synergy_scripts/log.txt;
 fi
 
-dest_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=dest_path=).*')
+user_script_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=user_script_path=).*')
 
 # Check expiartion time
 cat << 'EOF' >> /root/synergy_scripts/check_expiration_time.sh
@@ -39,14 +37,14 @@ if [ "$time_diff" -le "$time_allert" ]
 then
 EOF
 cat <<EOF>> /root/synergy_scripts/check_expiration_time.sh
-  $dest_path
+  $user_script_path
 EOF
 cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
     if [ $? -eq 0 ]; then 
-      rm -rf /etc/cron.d/synergy_cron; 
+     rm -rf /etc/cron.d/synergy_cron; 
     fi
 else
-    echo "Expiration time checked on:" `date` >>/root/synergy_scripts/log.txt
+     echo "Expiration time checked on:" `date` >>/root/synergy_scripts/log.txt
 fi
 EOF
 if [ $? -eq 0 ]; then 
