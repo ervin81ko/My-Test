@@ -13,6 +13,10 @@ user_script_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | g
 if [ $? -ne 0 ]; then 
   echo `date`" error: 'user_script_path' variable not valorized" >>/root/synergy_scripts/log.txt;
 fi
+# Check user script creation
+if [[ -x "$user_script_path" ]]
+  echo `date`" info: user script created correctly" >>/root/synergy_scripts/log.txt;
+fi
 # Create check expiartion time script
 cat << 'EOF' >> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
