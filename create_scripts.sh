@@ -1,18 +1,20 @@
 #!/bin/bash
 
-# Make Synergy cron 
+# Create Synergy cron file
 cat << EOF >/etc/cron.d/synergy_cron
 */1 * * * * root /root/synergy_scripts/check_expiration_time.sh
 EOF
 if [ $? -eq 0 ]; then 
-  echo `date`" 'synergy_cron' file created correctly" >>/root/synergy_scripts/log.txt;
+  echo `date`" 'info: synergy_cron' file created correctly" >>/root/synergy_scripts/log.txt;
 else
   echo `date`" Error: 'synergy_cron file not created" >>/root/synergy_scripts/log.txt;
 fi
 
 user_script_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=user_script_path=).*')
-
-# Check expiartion time
+if [ $? -ne 0 ]; then 
+  echo `date`" Error: 'user_script_path' variable not valorized" >>/root/synergy_scripts/log.txt;
+fi
+# Create check expiartion time script
 cat << 'EOF' >> /root/synergy_scripts/check_expiration_time.sh
 #!/bin/bash
 # Expiration time in sec. since 1970-01-01 00:00:00 UTC
@@ -26,7 +28,6 @@ time_allert=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -
 if [ $? -ne 0 ]; then 
   echo `date`" Error: 'time_allert' variable not valorized" >>/root/synergy_scripts/log.txt;
 fi
-
 # Current time in sec. since 1970-01-01 00:00:00 UTC
 curr_time=$(date -u +%s)
 
@@ -41,10 +42,12 @@ cat <<EOF>> /root/synergy_scripts/check_expiration_time.sh
 EOF
 cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
     if [ $? -eq 0 ]; then 
-     rm -rf /etc/cron.d/synergy_cron; 
+      echo `date`" info: User script executed correctly" >>/root/synergy_scripts/log.txt;
+      rm -rf /etc/cron.d/synergy_cron; 
+      echo `date`" info: 'synergy_cron' file removed correctly" >>/root/synergy_scripts/log.txt;
     fi
 else
-    echo "Expiration time checked on:" `date` >>/root/synergy_scripts/log.txt
+    echo `date`" info: Expiration time checked" >>/root/synergy_scripts/log.txt;
 fi
 EOF
 if [ $? -eq 0 ]; then 
