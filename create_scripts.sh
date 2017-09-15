@@ -14,7 +14,7 @@ if [ $? -ne 0 ]; then
   echo `date`" error: 'user_script_path' variable not valorized" >>/root/synergy_scripts/log.txt;
 fi
 # Check user script creation
-if [[ -x "$user_script_path" ]]
+if [[ -x "$user_script_path" ]]; then
   echo `date`" info: user script created correctly" >>/root/synergy_scripts/log.txt;
 fi
 # Create check expiartion time script
