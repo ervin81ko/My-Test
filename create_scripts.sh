@@ -1,6 +1,5 @@
 #!/bin/bash
 echo `date`" info: Starting.." >>/root/synergy_scripts/log.txt;
-
 # Create Synergy cron file
 cat << EOF >/etc/cron.d/synergy_cron
 */1 * * * * root /root/synergy_scripts/check_expiration_time.sh
@@ -10,7 +9,6 @@ if [ $? -eq 0 ]; then
 else
   echo `date`" Error:'synergy_cron file not created" >>/root/synergy_scripts/log.txt;
 fi
-
 user_script_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=user_script_path=).*')
 if [ $? -ne 0 ]; then 
   echo `date`" error: 'user_script_path' variable not valorized" >>/root/synergy_scripts/log.txt;
