@@ -25,7 +25,7 @@ fi
 # Time in min.
 syn_clock=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=syn_clock=).*')
 if [ $? -ne 0 ]; then 
-  echo `date`" error: 'time_allert' variable not valorized" >>/root/synergy_scripts/log.txt;
+  echo `date`" error: 'syn_clock' variable not valorized" >>/root/synergy_scripts/log.txt;
 fi
 # Current time in sec. since 1970-01-01 00:00:00 UTC
 curr_time=$(date -u +%s)
