@@ -41,7 +41,7 @@ cat <<EOF>> /root/synergy_scripts/check_expiration_time.sh
 EOF
 cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
     if [ $? -eq 0 ]; then 
-      echo `date`" info: User script executed correctly" >>/root/synergy_scripts/log.txt;
+      echo `date`" info: user script executed correctly" >>/root/synergy_scripts/log.txt;
       rm -rf /etc/cron.d/synergy_cron; 
       echo `date`" info: 'synergy_cron' file removed correctly" >>/root/synergy_scripts/log.txt;
     fi
@@ -50,7 +50,7 @@ else
 fi
 EOF
 if [ $? -eq 0 ]; then 
-  echo `date`" info:'check_expiration_time' script created correctly " >>/root/synergy_scripts/log.txt;
+  echo `date`" info: 'check_expiration_time' script created correctly " >>/root/synergy_scripts/log.txt;
 else
   echo `date`" error: 'check_expiration_time' script not created" >>/root/synergy_scripts/log.txt;
 fi
