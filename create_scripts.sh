@@ -1,4 +1,5 @@
 #!/bin/bash
+echo `date`" info: Starting.." >>/root/synergy_scripts/log.txt;
 
 # Create Synergy cron file
 cat << EOF >/etc/cron.d/synergy_cron
@@ -7,12 +8,12 @@ EOF
 if [ $? -eq 0 ]; then 
   echo `date`" 'info: synergy_cron' file created correctly" >>/root/synergy_scripts/log.txt;
 else
-  echo `date`" Error: 'synergy_cron file not created" >>/root/synergy_scripts/log.txt;
+  echo `date`" Error:'synergy_cron file not created" >>/root/synergy_scripts/log.txt;
 fi
 
 user_script_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=user_script_path=).*')
 if [ $? -ne 0 ]; then 
-  echo `date`" Error: 'user_script_path' variable not valorized" >>/root/synergy_scripts/log.txt;
+  echo `date`" error: 'user_script_path' variable not valorized" >>/root/synergy_scripts/log.txt;
 fi
 # Create check expiartion time script
 cat << 'EOF' >> /root/synergy_scripts/check_expiration_time.sh
@@ -21,12 +22,12 @@ cat << 'EOF' >> /root/synergy_scripts/check_expiration_time.sh
 expiration_time=$(curl -s http://169.254.169.254/openstack/latest/meta_data.json | grep -oP "(?<=\"expiration_time\": \")[^\"]+")
 
 if [ $? -ne 0 ]; then 
-  echo `date`" Error: 'expiration_time' variable not valorized" >>/root/synergy_scripts/log.txt;
+  echo `date`" error: 'expiration_time' variable not valorized" >>/root/synergy_scripts/log.txt;
 fi
 # Time in min.
 time_allert=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=syn_allert_clock=).*')
 if [ $? -ne 0 ]; then 
-  echo `date`" Error: 'time_allert' variable not valorized" >>/root/synergy_scripts/log.txt;
+  echo `date`" error: 'time_allert' variable not valorized" >>/root/synergy_scripts/log.txt;
 fi
 # Current time in sec. since 1970-01-01 00:00:00 UTC
 curr_time=$(date -u +%s)
@@ -47,12 +48,12 @@ cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
       echo `date`" info: 'synergy_cron' file removed correctly" >>/root/synergy_scripts/log.txt;
     fi
 else
-    echo `date`" info: Expiration time checked" >>/root/synergy_scripts/log.txt;
+    echo `date`" info: expiration time checked" >>/root/synergy_scripts/log.txt;
 fi
 EOF
 if [ $? -eq 0 ]; then 
-  echo `date`" 'check_expiration_time' script created correctly " >>/root/synergy_scripts/log.txt;
+  echo `date`" info:'check_expiration_time' script created correctly " >>/root/synergy_scripts/log.txt;
 else
-  echo `date`" Error: 'check_expiration_time' script not created" >>/root/synergy_scripts/log.txt;
+  echo `date`" error: 'check_expiration_time' script not created" >>/root/synergy_scripts/log.txt;
 fi
 chmod 755 /root/synergy_scripts/check_expiration_time.sh
