@@ -37,14 +37,14 @@ if [ "$time_diff" -le "$time_allert" ]
 then
 EOF
 cat <<EOF>> /root/synergy_scripts/check_expiration_time.sh
-  $user_script_path
+    $user_script_path
 EOF
 cat <<'EOF'>> /root/synergy_scripts/check_expiration_time.sh
     if [ $? -eq 0 ]; then 
      rm -rf /etc/cron.d/synergy_cron; 
     fi
 else
-     echo "Expiration time checked on:" `date` >>/root/synergy_scripts/log.txt
+    echo "Expiration time checked on:" `date` >>/root/synergy_scripts/log.txt
 fi
 EOF
 if [ $? -eq 0 ]; then 
