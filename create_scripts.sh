@@ -5,9 +5,9 @@ cat << EOF >/etc/cron.d/synergy_cron
 */1 * * * * root /root/synergy_scripts/check_expiration_time.sh
 EOF
 if [ $? -eq 0 ]; then 
-  echo `date`" 'info: synergy_cron' file created correctly" >>/root/synergy_scripts/log.txt;
+  echo `date`" info: 'synergy_cron' file created correctly" >>/root/synergy_scripts/log.txt;
 else
-  echo `date`" Error:'synergy_cron file not created" >>/root/synergy_scripts/log.txt;
+  echo `date`" error: 'synergy_cron file not created" >>/root/synergy_scripts/log.txt;
 fi
 user_script_path=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=user_script_path=).*')
 if [ $? -ne 0 ]; then 
@@ -23,7 +23,7 @@ if [ $? -ne 0 ]; then
   echo `date`" error: 'expiration_time' variable not valorized" >>/root/synergy_scripts/log.txt;
 fi
 # Time in min.
-time_allert=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=syn_allert_clock=).*')
+syn_clock=$(curl -s http://169.254.169.254/openstack/latest/user_data | grep -m1 -oP '(?<=syn_clock=).*')
 if [ $? -ne 0 ]; then 
   echo `date`" error: 'time_allert' variable not valorized" >>/root/synergy_scripts/log.txt;
 fi
@@ -33,7 +33,7 @@ curr_time=$(date -u +%s)
 # Compute the difference time in min.
 let "time_diff=($expiration_time-$curr_time)/60"
 
-if [ "$time_diff" -le "$time_allert" ]
+if [ "$time_diff" -le "$syn_clock" ]
 then
 EOF
 cat <<EOF>> /root/synergy_scripts/check_expiration_time.sh
